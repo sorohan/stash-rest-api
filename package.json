@@ -1,0 +1,16 @@
+{
+  "name": "stash-rest-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^3.10.0",
+    "node-rest-client": "^1.5.1",
+    "query-string": "^2.3.0"
+  }
+}
