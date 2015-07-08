@@ -64,6 +64,20 @@ Get all pull requests on all projects.
 stash.prs.getCombined(); // Promise
 ```
 
+Get all pull requests by a specific author.
+
+```
+stash.prs.getCombined(null, null, { author: "ben" }); // Promise
+```
+
+Get all pull requests in a specific state (defaults OPEN).
+
+```
+stash.prs.getCombined(null, null, { state: "MERGED" }); // Promise
+```
+
+*Possible states: ALL, OPEN, DECLINED or MERGED.*
+
 ### hooks
 
 Get all hooks for a repo.

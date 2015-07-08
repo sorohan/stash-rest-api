@@ -1,6 +1,6 @@
 {
   "name": "stash-rest-api",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "Provides access to *some* of Stash's APIs.",
   "main": "index.js",
   "scripts": {
