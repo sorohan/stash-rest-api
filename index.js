@@ -3,6 +3,7 @@ exports.Client = require('./lib/client');
 
 // Eg:
 
+/*
 var auth = require('./auth.json');
 stash = new exports.Client(
     'http://stash.backbase.com:7990/rest/api/1.0/',
@@ -15,8 +16,6 @@ stash.hooks.getPreReceive('LPM', 'module-accounts', {}).then(function(response) 
         console.log(hook.details);
     });
 });
-
-/*
 
 stash.hooks.get('LPM', 'module-accounts').then(function(response) {
     console.log(response.values);
