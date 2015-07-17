@@ -9,6 +9,7 @@
   "author": "Ben Sorohan <npm@sorohan.com.au>",
   "license": "MIT",
   "dependencies": {
+    "async": "^1.3.0",
     "lodash": "^3.10.0",
     "node-rest-client": "^1.5.1",
     "query-string": "^2.3.0"
