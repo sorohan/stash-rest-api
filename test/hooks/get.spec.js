@@ -11,10 +11,11 @@ describe('Hooks', function() {
         stashClient = new StashClient('http://localhost/', 'username', 'password');
         httpClient = stashClient.client;
         httpClientGet = sinon.stub(httpClient, 'get');
+        sinon.spy(httpClientGet);
     });
 
     afterEach(function() {
-        httpClient.get.restore();
+        httpClientGet.restore();
     });
 
     it('should get list of hooks', function(done) {
@@ -29,6 +30,10 @@ describe('Hooks', function() {
         stashClient.hooks.get('PRJ', 'my-repo').then(function(hooks) {
             assert.equal(hooks.size, 1);
             assert.deepEqual(hooks.values[0], expected.values[0]);
+            assert.equal(
+                httpClientGet.getCall(0).args[0],
+                'http://localhost/projects/PRJ/repos/my-repo/settings/hooks?limit=1000'
+            );
             done();
         });
     });
@@ -45,6 +50,10 @@ describe('Hooks', function() {
         var hookKey = 'com.atlassian.stash.plugin.example:example-repository-hook';
         stashClient.hooks.getHook('PRJ', 'my-repo', hookKey).then(function(hook) {
             assert.deepEqual(hook.details, expected.details);
+            assert.equal(
+                httpClientGet.getCall(0).args[0],
+                'http://localhost/projects/PRJ/repos/my-repo/settings/hooks/' + hookKey
+            );
             done();
         });
     });

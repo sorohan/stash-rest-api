@@ -11,10 +11,11 @@ describe('Pull Requests', function() {
         stashClient = new StashClient('http://localhost/', 'username', 'password');
         httpClient = stashClient.client;
         httpClientGet = sinon.stub(httpClient, 'get');
+        sinon.spy(httpClientGet);
     });
 
     afterEach(function() {
-        httpClient.get.restore();
+        httpClientGet.restore();
     });
 
     it('should get list of pull requests for a project/repo', function(done) {
@@ -29,6 +30,10 @@ describe('Pull Requests', function() {
         stashClient.prs.get('PRJ', 'my-repo').then(function(prs) {
             assert.equal(prs.size, 1);
             assert.deepEqual(prs.values[0], expected.values[0]);
+            assert.equal(
+                httpClientGet.getCall(0).args[0],
+                'http://localhost/projects/PRJ/repos/my-repo/pull-requests?limit=1000&state=OPEN'
+            );
             done();
         });
     });
@@ -51,6 +56,18 @@ describe('Pull Requests', function() {
         // Test prs.get API.
         stashClient.prs.getCombined().then(function(prs) {
             assert.deepEqual(prs.values[0], expectedPrs.values[0]);
+            assert.equal(
+                httpClientGet.getCall(0).args[0],
+                'http://localhost/projects?limit=1000'
+            );
+            assert.equal(
+                httpClientGet.getCall(1).args[0],
+                'http://localhost/projects/PRJ/repos?limit=1000'
+            );
+            assert.equal(
+                httpClientGet.getCall(2).args[0],
+                'http://localhost/projects/PRJ/repos/my-repo/pull-requests?limit=1000&state=OPEN'
+            );
             done();
         });
     });
