@@ -4,14 +4,19 @@
   "description": "Provides access to *some* of Stash's APIs.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "start": "mocha --watch",
+    "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000"
   },
   "author": "Ben Sorohan <npm@sorohan.com.au>",
   "license": "MIT",
   "dependencies": {
+    "istanbul": "^0.3.17",
     "lodash": "^3.10.0",
+    "mocha": "^2.2.5",
     "node-rest-client": "^1.5.1",
-    "query-string": "^2.3.0"
+    "query-string": "^2.3.0",
+    "sinon": "^1.15.4"
   },
   "devDependencies": {},
   "repository": {

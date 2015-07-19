@@ -103,3 +103,11 @@ Get details for a single hook.
 ```
 stash.hooks.getHook(projectKey, repoSlug, hookKey); // Promise
 ```
+
+## API Coverage
+
+ - /rest/api/1.0/projects [GET]
+ - /rest/api/1.0/projects/{projectKey}/repos [GET]
+ - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug} [GET]
+ - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests [GET]
+ - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks
