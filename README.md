@@ -112,4 +112,5 @@ stash.hooks.getHook(projectKey, repoSlug, hookKey); // Promise
  - /rest/api/1.0/projects/{projectKey}/repos [GET]
  - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug} [GET]
  - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests [GET]
- - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks
+ - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks [GET]
+ - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks/{hookKey}/enabled [PUT]
