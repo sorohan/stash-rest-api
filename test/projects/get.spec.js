@@ -1,38 +1,35 @@
-
 var assert = require('assert');
 var sinon = require('sinon');
-var PassThrough = require('stream').PassThrough;
-var StashClient = require('../../index.js').Client;
+var BitbucketClient = require('../../index.js').Client;
+var request = require('request-promise');
+var Promise = require('bluebird');
 
-describe('Projects', function() {
-    var httpClientGet, httpClient, stashClient;
+describe('Projects', function () {
+    var requestGet, bitbucketClient;
+    var oauth = require('../mocks/oauth');
 
-    beforeEach(function() {
-        stashClient = new StashClient('http://localhost/', 'username', 'password');
-        httpClient = stashClient.client;
-        httpClientGet = sinon.stub(httpClient, 'get');
-        sinon.spy(httpClientGet);
+    beforeEach(function () {
+        bitbucketClient = new BitbucketClient('http://localhost/', oauth);
+        requestGet = sinon.stub(request, 'get');
     });
 
-    afterEach(function() {
-        httpClientGet.restore();
+    afterEach(function () {
+        requestGet.restore();
     });
 
-    it('should get list of projects', function(done) {
+    it('should get list of projects', function (done) {
         // Mock the HTTP Client get.
         var expected = require('../mocks/projects.json');
-        var response = new PassThrough();
-        var request = new PassThrough();
-        httpClientGet.callsArgWith(1, expected, response)
-            .returns(request);
+        requestGet.returns(Promise.resolve(expected));
 
         // Test projects.get API.
-        stashClient.projects.get().then(function(projects) {
-            assert.equal(projects.size, 1);
-            assert.deepEqual(projects.values[0], expected.values[0]);
-            assert.equal(httpClientGet.getCall(0).args[0], 'http://localhost/projects?limit=1000');
-            done();
-        });
+        bitbucketClient.projects.get()
+            .then(function (projects) {
+                assert.equal(projects.size, 1);
+                assert.deepEqual(projects.values[0], expected.values[0]);
+                assert.equal(requestGet.getCall(0).args[0].uri, 'http://localhost/projects?limit=1000');
+            })
+            .finally(done);
     });
 });
 
