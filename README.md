@@ -1,24 +1,26 @@
 
-# Rest client for Atlassian Stash
+# Rest client for Atlassian client
 
-Provides access to *some* of Stash's APIs.
+Provides access to *some* of client's APIs.
 
-[![Coverage Status](https://coveralls.io/repos/sorohan/stash-rest-api/badge.svg?branch=master&service=github)](https://coveralls.io/github/sorohan/stash-rest-api?branch=master)
+[![Coverage Status](https://coveralls.io/repos/markmssd/bitbucket-server-nodejs/badge.svg?branch=master&service=github)](https://coveralls.io/github/markmssd/bitbucket-server-nodejs?branch=master)
 
 ## Initialising Client
 
 ```
-var auth = {
-    "user": "username",
-    "password": "password"
+var oauth = {
+    "consumer_key": "consumer_key",
+    "consumer_secret": "consumer_secret",
+    "signature_method": "signature_method",
+    "token": "token",
+    "token_secret": "token_secret"
 };
 
-var Client = require('stash-rest-api').Client;
+var Client = require('bitbucket-server-nodejs').Client;
 
-var stash = new Client(
+var client = new Client(
     'http://localhost:7990/rest/api/1.0/',
-    auth.user,
-    auth.password
+    oauth
 );
 ```
 
@@ -29,7 +31,7 @@ var stash = new Client(
 Get all projects.
 
 ```
-stash.projects.get(); // Promise
+client.projects.get(); // Promise
 ```
 
 ### repos
@@ -37,13 +39,13 @@ stash.projects.get(); // Promise
 Get all repos for a project.
 
 ```
-stash.repos.get(projectKey); // Promise
+client.repos.get(projectKey); // Promise
 ```
 
 Get all repos for all projects.
 
 ```
-stash.repos.getCombined(); // Promise
+client.repos.getCombined(); // Promise
 ```
 
 ### pull requests
@@ -51,31 +53,31 @@ stash.repos.getCombined(); // Promise
 Get all pull requests for a repo.
 
 ```
-stash.prs.get(projectKey, repoSlug); // Promise
+client.prs.get(projectKey, repoSlug); // Promise
 ```
 
 Get all pull requests for a project.
 
 ```
-stash.prs.getCombined(projectKey); // Promise
+client.prs.getCombined(projectKey); // Promise
 ```
 
 Get all pull requests on all projects.
 
 ```
-stash.prs.getCombined(); // Promise
+client.prs.getCombined(); // Promise
 ```
 
 Get all pull requests by a specific author.
 
 ```
-stash.prs.getCombined(null, null, { author: "ben" }); // Promise
+client.prs.getCombined(null, null, { author: "ben" }); // Promise
 ```
 
 Get all pull requests in a specific state (defaults OPEN).
 
 ```
-stash.prs.getCombined(null, null, { state: "MERGED" }); // Promise
+client.prs.getCombined(null, null, { state: "MERGED" }); // Promise
 ```
 
 *Possible states: ALL, OPEN, DECLINED or MERGED.*
@@ -85,25 +87,25 @@ stash.prs.getCombined(null, null, { state: "MERGED" }); // Promise
 Get all hooks for a repo.
 
 ```
-stash.hooks.get(projectKey, repoSlug); // Promise
+client.hooks.get(projectKey, repoSlug); // Promise
 ```
 
 Get all pre-recieve hooks.
 
 ```
-stash.hooks.getPreReceive(projectKey, repoSlug); // Promise
+client.hooks.getPreReceive(projectKey, repoSlug); // Promise
 ```
 
 Get all post-recieve hooks.
 
 ```
-stash.hooks.getPostReceive(projectKey, repoSlug); // Promise
+client.hooks.getPostReceive(projectKey, repoSlug); // Promise
 ```
 
 Get details for a single hook.
 
 ```
-stash.hooks.getHook(projectKey, repoSlug, hookKey); // Promise
+client.hooks.getHook(projectKey, repoSlug, hookKey); // Promise
 ```
 
 ## API Coverage
