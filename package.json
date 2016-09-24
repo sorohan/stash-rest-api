@@ -1,8 +1,7 @@
 {
   "_args": [
     [
-      "bitbucket-server-nodejs",
-      "/Users/mmassou1/dev/simple-express"
+      "bitbucket-server-nodejs"
     ]
   ],
   "_from": "bitbucket-server-nodejs@*",
@@ -56,17 +55,13 @@
     "bluebird": "^3.4.6",
     "chai": "^3.5.0"
   },
-  "directories": {},
-  "dist": {
-    "shasum": "bdbee3aa51121f4f3886d0bcbdee9445f140b6ac",
-    "tarball": "https://registry.npmjs.org/bitbucket-server-nodejs/-/bitbucket-server-nodejs-2.6.0.tgz"
-  },
-  "gitHead": "d615cb62ae9b87e1c5d8548ded2555f042454f50",
   "homepage": "https://github.com/markmssd/bitbucket-server-nodejs",
   "keywords": [
     "api",
     "rest",
-    "stash"
+    "stash",
+    "bitbucket",
+    "bitbucket-server"
   ],
   "license": "MIT",
   "main": "index.js",
