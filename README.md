@@ -3,7 +3,7 @@
 
 Provides access to *some* of Stash's APIs.
 
-[![Coverage Status](https://coveralls.io/repos/sorohan/stash-rest-api/badge.svg?branch=master&service=github)](https://coveralls.io/github/sorohan/stash-rest-api?branch=master)
+[![Coverage Status](https://coveralls.io/repos/markmssd/bitbucket-server-nodejs/badge.svg?branch=master&service=github)](https://coveralls.io/github/markmssd/bitbucket-server-nodejs?branch=master)
 
 ## Initialising Client
 
