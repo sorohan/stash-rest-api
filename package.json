@@ -1,38 +1,87 @@
 {
-  "name": "stash-rest-api",
-  "version": "2.6.0",
-  "description": "Provides access to *some* of Stash's APIs.",
-  "main": "index.js",
-  "scripts": {
-    "start": "mocha --watch",
-    "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+  "_args": [
+    [
+      "bitbucket-server-nodejs"
+    ]
+  ],
+  "_from": "bitbucket-server-nodejs@*",
+  "_id": "bitbucket-server-nodejs@2.6.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/bitbucket-server-nodejs",
+  "_nodeVersion": "0.12.2",
+  "_npmUser": {
+    "email": "npm@markmssd.com",
+    "name": "markmssd"
   },
-  "author": "Ben Sorohan <npm@sorohan.com.au>",
-  "license": "MIT",
+  "_npmVersion": "2.7.4",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "bitbucket-server-nodejs",
+    "raw": "bitbucket-server-nodejs",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "*",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/bitbucket-server-nodejs/-/bitbucket-server-nodejs-2.6.0.tgz",
+  "_shasum": "bdbee3aa51121f4f3886d0bcbdee9445f140b6ac",
+  "_shrinkwrap": null,
+  "_spec": "bitbucket-server-nodejs",
+  "_where": "/Users/mmassou1/dev/simple-express",
+  "author": {
+    "email": "npm@markmssd.com",
+    "name": "Ben markmssd"
+  },
+  "bugs": {
+    "url": "https://github.com/markmssd/bitbucket-server-nodejs/issues"
+  },
   "dependencies": {
+    "async": "~1.3.0",
     "coveralls": "^2.11.3",
     "istanbul": "^0.3.17",
-    "lodash": "^3.10.0",
+    "lodash": "^4.16.1",
     "mocha": "^2.2.5",
-    "node-rest-client": "^1.5.1",
     "query-string": "^2.3.0",
-    "sinon": "^1.15.4",
-    "async": "~1.3.0",
-    "promise": "~7.0.3"
+    "request": "^2.75.0",
+    "request-promise": "^4.1.1",
+    "sinon": "^1.15.4"
   },
-  "devDependencies": {},
+  "description": "Provides access to *some* of Stash's APIs.",
+  "devDependencies": {
+    "bluebird": "^3.4.6",
+    "chai": "^3.5.0"
+  },
+  "homepage": "https://github.com/markmssd/bitbucket-server-nodejs",
+  "keywords": [
+    "api",
+    "rest",
+    "stash",
+    "bitbucket",
+    "bitbucket-server"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "markmssd",
+      "email": "npm@markmssd.com"
+    }
+  ],
+  "name": "bitbucket-server-nodejs",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sorohan/stash-rest-api.git"
+    "url": "git+https://github.com/markmssd/bitbucket-server-nodejs.git"
   },
-  "keywords": [
-    "stash",
-    "rest",
-    "api"
-  ],
-  "bugs": {
-    "url": "https://github.com/sorohan/stash-rest-api/issues"
+  "scripts": {
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "start": "mocha --watch",
+    "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000"
   },
-  "homepage": "https://github.com/sorohan/stash-rest-api"
+  "version": "2.6.0"
 }
