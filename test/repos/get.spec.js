@@ -104,12 +104,13 @@ describe('Repos', function () {
         var expected = require('../mocks/repo-single.json');
         requestGet.returns(Promise.resolve(expected));
 
-        bitbucketClient.repos.getRepo('PRJ', 'my-repo').then(function (repos) {
-            assert.deepEqual(repos, expected);
-            assert.equal(requestGet.getCall(0).args[0].uri, 'http://localhost/projects/PRJ/repos/my-repo');
+        bitbucketClient.repos.getRepo('PRJ', 'my-repo')
+            .then(function (repos) {
+                assert.deepEqual(repos, expected);
+                assert.equal(requestGet.getCall(0).args[0].uri, 'http://localhost/projects/PRJ/repos/my-repo');
 
-            done();
-        });
+                done();
+            });
     });
 
     it('should browse a repo', function (done) {
@@ -125,14 +126,14 @@ describe('Repos', function () {
             .then(function (browse) {
                 assert.deepEqual(browse, expected);
                 assert.equal(requestGet.getCall(0).args[0].uri, 'http://localhost/projects/PRJ/repos/my-repo/browse?limit=1000');
-            })
-            .then(function () {
-                bitbucketClient.repos.browse('PRJ', 'my-repo', {path: 'my-path/foo.html'}).then(function (browse) {
-                    var toCall = 'http://localhost/projects/PRJ/repos/my-repo/browse/my-path/foo.html?limit=1000';
-                    assert.equal(requestGet.getCall(1).args[0].uri, toCall);
 
-                    done();
-                });
+                return bitbucketClient.repos.browse('PRJ', 'my-repo', {path: 'my-path/foo.html'});
+            })
+            .then(function (browse) {
+                var toCall = 'http://localhost/projects/PRJ/repos/my-repo/browse/my-path/foo.html?limit=1000';
+                assert.equal(requestGet.getCall(1).args[0].uri, toCall);
+
+                done();
             });
     });
 });
