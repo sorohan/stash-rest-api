@@ -117,21 +117,25 @@ describe('Repos', function () {
         // Mock the HTTP Client get.
         var expected = require('../mocks/repo-browse.json');
 
-        requestGet.onCall(0)
-            .returns(Promise.resolve(expected));
-        requestGet.onCall(1)
-            .returns(Promise.resolve(expected));
+        requestGet.returns(Promise.resolve(expected));
 
         bitbucketClient.repos.browse('PRJ', 'my-repo')
             .then(function (browse) {
                 assert.deepEqual(browse, expected);
                 assert.equal(requestGet.getCall(0).args[0].uri, 'http://localhost/projects/PRJ/repos/my-repo/browse?limit=1000');
 
-                return bitbucketClient.repos.browse('PRJ', 'my-repo', {path: 'my-path/foo.html'});
+                return bitbucketClient.repos.browse('PRJ', 'my-repo', {path: '/my-path/foo.html'});
             })
             .then(function (browse) {
                 var toCall = 'http://localhost/projects/PRJ/repos/my-repo/browse/my-path/foo.html?limit=1000';
                 assert.equal(requestGet.getCall(1).args[0].uri, toCall);
+
+                // test that it will add the first slash in path if missing
+                return bitbucketClient.repos.browse('PRJ', 'my-repo', {path: 'my-path/foo.html'});
+            })
+            .then(function (browse) {
+                var toCall = 'http://localhost/projects/PRJ/repos/my-repo/browse/my-path/foo.html?limit=1000';
+                assert.equal(requestGet.getCall(2).args[0].uri, toCall);
 
                 done();
             });
