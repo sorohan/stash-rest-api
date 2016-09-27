@@ -28,8 +28,10 @@ describe('Projects', function () {
                 assert.equal(projects.size, 1);
                 assert.deepEqual(projects.values[0], expected.values[0]);
                 assert.equal(requestGet.getCall(0).args[0].uri, 'http://localhost/projects?limit=1000');
-            })
-            .finally(done);
+                assert.equal(requestGet.getCall(0).args[0].oauth, oauth);
+
+                done();
+            });
     });
 });
 

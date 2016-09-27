@@ -40,8 +40,9 @@ describe('Repos', function () {
                 assert.equal(repos.size, 1);
                 assert.deepEqual(repos.values[0], expected.values[0]);
                 assert.equal(requestGet.getCall(1).args[0].uri, 'http://localhost/projects/PRJ/repos?limit=1000');
-            })
-            .finally(done);
+
+                done();
+            });
     });
 
     it('should get a combined list of repos for all projects', function (done) {
@@ -60,8 +61,9 @@ describe('Repos', function () {
                 assert.deepEqual(repos.values[0], expectedRepos.values[0]);
                 assert.equal(requestGet.getCall(0).args[0].uri, 'http://localhost/projects?limit=1000');
                 assert.equal(requestGet.getCall(1).args[0].uri, 'http://localhost/projects/PRJ/repos?limit=1000');
-            })
-            .finally(done);
+
+                done();
+            });
     });
 
     it('should fail gracefully when getting repos', function (done) {
@@ -92,9 +94,9 @@ describe('Repos', function () {
                     })
                     .catch(function (e) {
                         assert.equal(e.message, 'Error');
+                        done();
                     });
-            })
-            .finally(done);
+            });
     });
 
     it('should get a single project', function (done) {
@@ -105,6 +107,7 @@ describe('Repos', function () {
         bitbucketClient.repos.getRepo('PRJ', 'my-repo').then(function (repos) {
             assert.deepEqual(repos, expected);
             assert.equal(requestGet.getCall(0).args[0].uri, 'http://localhost/projects/PRJ/repos/my-repo');
+
             done();
         });
     });
@@ -127,9 +130,10 @@ describe('Repos', function () {
                 bitbucketClient.repos.browse('PRJ', 'my-repo', {path: 'my-path/foo.html'}).then(function (browse) {
                     var toCall = 'http://localhost/projects/PRJ/repos/my-repo/browse/my-path/foo.html?limit=1000';
                     assert.equal(requestGet.getCall(1).args[0].uri, toCall);
+
+                    done();
                 });
-            })
-            .finally(done);
+            });
     });
 });
 

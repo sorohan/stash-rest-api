@@ -1,4 +1,5 @@
 {
+  "type": "oauth",
   "consumer_key": "consumer_key",
   "consumer_secret": "consumer_secret",
   "signature_method": "signature_method",

@@ -45,9 +45,9 @@
   "devDependencies": {
     "bluebird": "^3.4.6",
     "chai": "^3.5.0",
-    "mocha": "^2.2.5",
     "coveralls": "^2.11.3",
     "istanbul": "^0.3.17",
+    "mocha": "^2.2.5",
     "sinon": "^1.15.4"
   },
   "homepage": "https://github.com/markmssd/bitbucket-server-nodejs",

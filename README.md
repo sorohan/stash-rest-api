@@ -6,21 +6,33 @@ Provides access to *some* of client's APIs.
 [![Coverage Status](https://coveralls.io/repos/markmssd/bitbucket-server-nodejs/badge.svg?branch=master&service=github)](https://coveralls.io/github/markmssd/bitbucket-server-nodejs?branch=master)
 
 ## Initialising Client
+Supports Basic Auth and OAuth
 
 ```
-var oauth = {
-    "consumer_key": "consumer_key",
+var Client = require('bitbucket-server-nodejs').Client;
+```
+
+```
+var auth = {
+    "type": "basic",
+    "username": "username",
+    "password": "password"
+};
+                - OR -
+var auth = {
+    "type": "oauth",
     "consumer_secret": "consumer_secret",
     "signature_method": "signature_method",
     "token": "token",
     "token_secret": "token_secret"
 };
 
-var Client = require('bitbucket-server-nodejs').Client;
+```
 
+```
 var client = new Client(
     'http://localhost:7990/rest/api/1.0/',
-    oauth
+    auth
 );
 ```
 
