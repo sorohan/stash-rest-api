@@ -9,7 +9,7 @@ describe('Hooks', function () {
     var oauth = require('../mocks/oauth');
 
     beforeEach(function () {
-        bitbucketClient = new BitbucketClient('http://localhost/', oauth);
+        bitbucketClient = new BitbucketClient('http://localhost', oauth);
         requestGet = sinon.stub(request, 'get');
     });
 
