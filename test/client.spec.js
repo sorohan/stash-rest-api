@@ -106,6 +106,7 @@ describe('Client', function () {
         assert.equal(bitbucketClient.auth, auth);
 
         assert.isNotNull(bitbucketClient.projects);
+        assert.isNotNull(bitbucketClient.branches);
         assert.isNotNull(bitbucketClient.repos);
         assert.isNotNull(bitbucketClient.prs);
         assert.isNotNull(bitbucketClient.hooks);
@@ -121,6 +122,7 @@ describe('Client', function () {
         assert.equal(bitbucketClient.oauth, oauth);
 
         assert.isNotNull(bitbucketClient.projects);
+        assert.isNotNull(bitbucketClient.branches);
         assert.isNotNull(bitbucketClient.repos);
         assert.isNotNull(bitbucketClient.prs);
         assert.isNotNull(bitbucketClient.hooks);

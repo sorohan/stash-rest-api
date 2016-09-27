@@ -60,6 +60,19 @@ Get all repos for all projects.
 client.repos.getCombined(); // Promise
 ```
 
+### branches
+
+Get all branches for a repo.
+
+```
+client.branches.get(projectKey, repoKey); // Promise
+```
+To get branches from a user repo rather than a project repo, use user's slug as the project key, prepended by '~'.
+
+```
+client.branches.get('~userslug', repoKey); // Promise
+```
+
 ### pull requests
 
 Get all pull requests for a repo.
