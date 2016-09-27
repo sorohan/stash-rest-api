@@ -22,7 +22,7 @@ describe('Client', function () {
     it('should complain about missing auth parameter', function (done) {
         assert.throws(function () {
             new BitbucketClient(baseUrl, null);
-        }, 'Auth or OAuth object is missing');
+        }, 'Auth object is missing');
 
         done();
     });
