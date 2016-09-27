@@ -6,7 +6,7 @@ var Promise = require('bluebird');
 var _ = require('lodash');
 
 describe('Client', function () {
-    var baseUrl = 'http://localhost';
+    var baseUrl = 'http://localhost/';
     var auth = require('./mocks/auth');
     var oauth = require('./mocks/oauth');
     var repos = require('./mocks/repos');
@@ -15,6 +15,16 @@ describe('Client', function () {
         assert.throws(function () {
             new BitbucketClient(null, oauth);
         }, 'Base URL is missing');
+
+        done();
+    });
+
+    it('should add missing slash at end only if it\'s missing', function (done) {
+        var client = new BitbucketClient('http://localhost', auth);
+        assert.equal(client.baseUrl, 'http://localhost/');
+
+        client = new BitbucketClient('http://localhost/', auth);
+        assert.equal(client.baseUrl, 'http://localhost/');
 
         done();
     });
@@ -40,7 +50,10 @@ describe('Client', function () {
     });
 
     it('should default to auth.type === basic if none provided', function (done) {
-        var bitbucketClient = new BitbucketClient(baseUrl, auth);
+        var bitbucketClient = new BitbucketClient(baseUrl, {
+            username: 'username',
+            password: 'password'
+        });
         assert(bitbucketClient.auth.type === 'basic');
 
         done();
@@ -48,8 +61,24 @@ describe('Client', function () {
 
     it('should complain about missing username/password if auth.type === basic', function (done) {
         assert.throws(function () {
-            new BitbucketClient('', oauth);
-        }, 'Base URL is missing');
+            new BitbucketClient(baseUrl, {
+                type: 'basic'
+            });
+        }, 'Auth\'s username and/or password is missing');
+
+        assert.throws(function () {
+            new BitbucketClient(baseUrl, {
+                type: 'basic',
+                username: 'username'
+            });
+        }, 'Auth\'s username and/or password is missing');
+
+        assert.throws(function () {
+            new BitbucketClient(baseUrl, {
+                type: 'basic',
+                password: 'password'
+            });
+        }, 'Auth\'s username and/or password is missing');
 
         done();
     });
@@ -114,10 +143,10 @@ describe('Client', function () {
             var bitbucketClient = new BitbucketClient(baseUrl, auth);
             requestGet.returns(Promise.resolve(repos));
 
-            bitbucketClient.get('/repos')
+            bitbucketClient.get('repos')
                 .then(function () {
                     assert.equal(requestGet.getCall(0).args[0].uri,
-                        baseUrl + '/repos');
+                        'http://localhost/repos');
 
                     assert.equal(requestGet.getCall(0).args[0].auth,
                         auth);
@@ -130,10 +159,10 @@ describe('Client', function () {
             var bitbucketClient = new BitbucketClient(baseUrl, oauth);
             requestGet.returns(Promise.resolve(repos));
 
-            bitbucketClient.get('/repos')
+            bitbucketClient.get('repos')
                 .then(function () {
                     assert.equal(requestGet.getCall(0).args[0].uri,
-                        baseUrl + '/repos');
+                        'http://localhost/repos');
 
                     assert.equal(requestGet.getCall(0).args[0].oauth,
                         oauth);
@@ -158,10 +187,10 @@ describe('Client', function () {
         it('should set uri and auth params properly', function (done) {
             var bitbucketClient = new BitbucketClient(baseUrl, auth);
 
-            bitbucketClient.put('/repos')
+            bitbucketClient.put('repos')
                 .then(function () {
                     assert.equal(requestPost.getCall(0).args[0].uri,
-                        baseUrl + '/repos');
+                        'http://localhost/repos');
 
                     assert.equal(requestPost.getCall(0).args[0].auth,
                         auth);
@@ -173,10 +202,10 @@ describe('Client', function () {
         it('should set uri and oauth params properly', function (done) {
             var bitbucketClient2 = new BitbucketClient(baseUrl, oauth);
 
-            bitbucketClient2.put('/repos')
+            bitbucketClient2.put('repos')
                 .then(function () {
                     assert.equal(requestPost.getCall(0).args[0].uri,
-                        baseUrl + '/repos');
+                        'http://localhost/repos');
 
                     assert.equal(requestPost.getCall(0).args[0].oauth,
                         oauth);
