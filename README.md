@@ -3,7 +3,7 @@
 
 Provides access to *some* of client's APIs.
 [![Build Status](https://travis-ci.org/markmssd/bitbucket-server-nodejs.svg?branch=master)](https://travis-ci.org/markmssd/bitbucket-server-nodejs)
-[![Coverage Status](https://coveralls.io/repos/markmssd/bitbucket-server-nodejs/badge.svg?branch=master&service=github)](https://coveralls.io/github/markmssd/bitbucket-server-nodejs?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/markmssd/bitbucket-server-nodejs/badge.svg?branch=master)](https://coveralls.io/github/markmssd/bitbucket-server-nodejs?branch=master)
 
 [![npm package](https://nodei.co/npm/bitbucket-server-nodejs.png?downloads=true&downloadRank=true)](https://nodei.co/npm/bitbucket-server-nodejs/)
 
