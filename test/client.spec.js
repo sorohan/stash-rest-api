@@ -135,6 +135,7 @@ describe('Client', function () {
         assert.isNotNull(client.repos);
         assert.isNotNull(client.prs);
         assert.isNotNull(client.hooks);
+        assert.isNotNull(client.users);
         assert.isNotNull(client.settings);
 
         done();

@@ -70,6 +70,12 @@ Get all repos for all projects.
 client.repos.getCombined(); // Promise
 ```
 
+Get one repo for a project.
+
+```
+client.repos.getRepo(projectKey, repo); // Promise
+```
+
 ### branches
 
 Get all branches for a repo.
@@ -152,8 +158,25 @@ Get user's settings. Username and Password must be valid.
 client.settings.get(username); // Promise
 ```
 
+### users
+
+Get full list of users. You will probably need to have admin access.
+
+```
+client.users.get(); // Promise
+```
+
+Get one user.
+
+```
+client.users.getUser(userSlug); // Promise
+```
+
 ## API Coverage
 
+ - /rest/api/1.0/users [GET]
+ - /rest/api/1.0/users/{userSlug} [GET]
+ - /rest/api/1.0/users/{userSlug}/settings [GET]
  - /rest/api/1.0/projects [GET]
  - /rest/api/1.0/projects/{projectKey}/repos [GET]
  - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug} [GET]
@@ -162,4 +185,3 @@ client.settings.get(username); // Promise
  - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests [GET]
  - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks [GET]
  - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks/{hookKey}/enabled [PUT]
- - /rest/api/1.0/users/{userSlug}/settings [GET]
