@@ -14,21 +14,22 @@ npm install bitbucket-server-nodejs
 ```
 
 ## Initializing Client
-Supports Basic Auth and OAuth
-Specify 'type' as 'basic' or 'oauth'. Defaults to 'basic'.
+Supports public, basic auth and OAuth1.
 
+Specify auth's type as 'public', 'basic' or 'oauth'. Defaults to 'public'.
 
 ```
 var Client = require('bitbucket-server-nodejs').Client;
 ```
 
 ```
+                 - BASIC AUTH -
 var auth = {
     "type": "basic",
     "username": "username",
     "password": "password"
 };
-                - OR -
+                  - OR OAUTH1 -
 var auth = {
     "type": "oauth",
     "consumer_secret": "consumer_secret",
@@ -36,13 +37,13 @@ var auth = {
     "token": "token",
     "token_secret": "token_secret"
 };
+      - OR NO AUTH AT ALL, FOR PUBLIC ACCESS -
 ```
 
 ```
-var client = new Client(
-    'http://localhost:7990/rest/api/1.0/',
-    auth
-);
+var client = new Client('http://localhost:7990/rest/api/1.0');
+                      - OR -
+var client = new Client('http://localhost:7990/rest/api/1.0', auth);
 ```
 
 ## APIS

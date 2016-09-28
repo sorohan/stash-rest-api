@@ -29,15 +29,20 @@ describe('Client', function () {
         done();
     });
 
-    it('should complain about missing auth parameter', function (done) {
-        assert.throws(function () {
-            new BitbucketClient(baseUrl, null);
-        }, 'Auth object is missing');
+    it('should ignore all other auth fields if auth.type === public', function (done) {
+        var client = new BitbucketClient('http://localhost', {
+            type: 'public',
+            username: 'username',
+            password: 'password'
+        });
+
+        assert.equal(client.auth, undefined);
+        assert.equal(client.oauth, undefined);
 
         done();
     });
 
-    it('should complain about missing username/password attributes', function (done) {
+    it('should complain about missing username/password attributes if auth.type === basic', function (done) {
         var auth = {
             type: 'basic'
         };
@@ -49,12 +54,14 @@ describe('Client', function () {
         done();
     });
 
-    it('should default to auth.type === basic if none provided', function (done) {
-        var bitbucketClient = new BitbucketClient(baseUrl, {
+    it('should default to auth.type=public if none provided, this no auth or oauth object', function (done) {
+        var client = new BitbucketClient(baseUrl, {
             username: 'username',
             password: 'password'
         });
-        assert(bitbucketClient.auth.type === 'basic');
+
+        assert.equal(client.auth, undefined);
+        assert.equal(client.oauth, undefined);
 
         done();
     });
@@ -98,34 +105,53 @@ describe('Client', function () {
         });
     });
 
+    it('should create a bitbucket client with no auth or oauth', function (done) {
+        var client = new BitbucketClient(baseUrl);
+        assert.typeOf(client, 'object');
+
+        assert.equal(client.baseUrl, baseUrl);
+        assert.equal(client.auth, undefined);
+        assert.equal(client.oauth, undefined);
+
+        assert.isNotNull(client.projects);
+        assert.isNotNull(client.branches);
+        assert.isNotNull(client.repos);
+        assert.isNotNull(client.prs);
+        assert.isNotNull(client.hooks);
+        assert.isNotNull(client.settings);
+
+        done();
+    });
+
     it('should create a bitbucket client with auth.type === basic', function (done) {
-        var bitbucketClient = new BitbucketClient(baseUrl, auth);
-        assert.typeOf(bitbucketClient, 'object');
+        var client = new BitbucketClient(baseUrl, auth);
+        assert.typeOf(client, 'object');
 
-        assert.equal(bitbucketClient.baseUrl, baseUrl);
-        assert.equal(bitbucketClient.auth, auth);
+        assert.equal(client.baseUrl, baseUrl);
+        assert.equal(client.auth, auth);
 
-        assert.isNotNull(bitbucketClient.projects);
-        assert.isNotNull(bitbucketClient.branches);
-        assert.isNotNull(bitbucketClient.repos);
-        assert.isNotNull(bitbucketClient.prs);
-        assert.isNotNull(bitbucketClient.hooks);
+        assert.isNotNull(client.projects);
+        assert.isNotNull(client.branches);
+        assert.isNotNull(client.repos);
+        assert.isNotNull(client.prs);
+        assert.isNotNull(client.hooks);
+        assert.isNotNull(client.settings);
 
         done();
     });
 
     it('should create a bitbucket client with auth.type === oauth', function (done) {
-        var bitbucketClient = new BitbucketClient(baseUrl, oauth);
-        assert.typeOf(bitbucketClient, 'object');
+        var client = new BitbucketClient(baseUrl, oauth);
+        assert.typeOf(client, 'object');
 
-        assert.equal(bitbucketClient.baseUrl, baseUrl);
-        assert.equal(bitbucketClient.oauth, oauth);
+        assert.equal(client.baseUrl, baseUrl);
+        assert.equal(client.oauth, oauth);
 
-        assert.isNotNull(bitbucketClient.projects);
-        assert.isNotNull(bitbucketClient.branches);
-        assert.isNotNull(bitbucketClient.repos);
-        assert.isNotNull(bitbucketClient.prs);
-        assert.isNotNull(bitbucketClient.hooks);
+        assert.isNotNull(client.projects);
+        assert.isNotNull(client.branches);
+        assert.isNotNull(client.repos);
+        assert.isNotNull(client.prs);
+        assert.isNotNull(client.hooks);
 
         done();
     });
@@ -142,10 +168,10 @@ describe('Client', function () {
         });
 
         it('should set uri and auth params properly', function (done) {
-            var bitbucketClient = new BitbucketClient(baseUrl, auth);
+            var client = new BitbucketClient(baseUrl, auth);
             requestGet.returns(Promise.resolve(repos));
 
-            bitbucketClient.get('repos')
+            client.get('repos')
                 .then(function () {
                     assert.equal(requestGet.getCall(0).args[0].uri,
                         'http://localhost/repos');
@@ -158,10 +184,10 @@ describe('Client', function () {
         });
 
         it('should set uri and oauth params properly', function (done) {
-            var bitbucketClient = new BitbucketClient(baseUrl, oauth);
+            var client = new BitbucketClient(baseUrl, oauth);
             requestGet.returns(Promise.resolve(repos));
 
-            bitbucketClient.get('repos')
+            client.get('repos')
                 .then(function () {
                     assert.equal(requestGet.getCall(0).args[0].uri,
                         'http://localhost/repos');
@@ -187,9 +213,9 @@ describe('Client', function () {
         });
 
         it('should set uri and auth params properly', function (done) {
-            var bitbucketClient = new BitbucketClient(baseUrl, auth);
+            var client = new BitbucketClient(baseUrl, auth);
 
-            bitbucketClient.put('repos')
+            client.put('repos')
                 .then(function () {
                     assert.equal(requestPost.getCall(0).args[0].uri,
                         'http://localhost/repos');
