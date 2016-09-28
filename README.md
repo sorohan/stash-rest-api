@@ -2,6 +2,7 @@
 # Rest client for Atlassian client
 
 Provides access to *some* of client's APIs.
+[![Build Status](https://travis-ci.org/markmssd/bitbucket-server-nodejs.svg?branch=master)](https://travis-ci.org/markmssd/bitbucket-server-nodejs)
 
 [![Coverage Status](https://coveralls.io/repos/markmssd/bitbucket-server-nodejs/badge.svg?branch=master&service=github)](https://coveralls.io/github/markmssd/bitbucket-server-nodejs?branch=master)
 
