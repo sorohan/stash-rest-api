@@ -8,7 +8,7 @@ Provides access to *some* of client's APIs.
 
 [![npm package](https://nodei.co/npm/bitbucket-server-nodejs.png?downloads=true&downloadRank=true)](https://nodei.co/npm/bitbucket-server-nodejs/)
 
-## Initialising Client
+## Initializing Client
 Supports Basic Auth and OAuth
 
 ```
