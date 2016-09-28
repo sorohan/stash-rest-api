@@ -133,6 +133,13 @@ Get details for a single hook.
 client.hooks.getHook(projectKey, repoSlug, hookKey); // Promise
 ```
 
+### settings
+
+Get user's settings. Username and Password must be valid.
+
+```
+client.settings.get(username); // Promise
+```
 ## API Coverage
 
  - /rest/api/1.0/projects [GET]
