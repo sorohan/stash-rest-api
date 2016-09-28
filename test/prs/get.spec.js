@@ -6,6 +6,7 @@ var Promise = require('bluebird');
 
 describe('Pull Requests', function () {
     var requestGet, bitbucketClient;
+    var auth = require('../mocks/auth');
     var oauth = require('../mocks/oauth');
 
     beforeEach(function () {
@@ -25,16 +26,25 @@ describe('Pull Requests', function () {
         requestGet.onCall(1).returns(Promise.resolve(expected));
 
         // Test prs.get API.
-        bitbucketClient.prs.get('PRJ', 'my-repo').then(function (prs) {
-            assert.equal(prs.size, 1);
-            assert.deepEqual(prs.values[0], expected.values[0]);
-            assert.equal(
-                requestGet.getCall(0).args[0].uri,
-                'http://localhost/projects/PRJ/repos/my-repo/pull-requests?limit=1000&state=OPEN'
-            );
-        }).then(function () {
-            // Test getCombined proxies to normal get for project/repo.
-            bitbucketClient.prs.getCombined('PRJ', 'my-repo').then(function (prs) {
+        bitbucketClient.prs.get('PRJ', 'my-repo')
+            .then(function (prs) {
+                assert.equal(prs.size, 1);
+                assert.deepEqual(prs.values[0], expected.values[0]);
+
+                assert.equal(
+                    requestGet.getCall(0).args[0].uri,
+                    'http://localhost/projects/PRJ/repos/my-repo/pull-requests?limit=1000&state=OPEN'
+                );
+
+                assert.equal(
+                    requestGet.getCall(0).args[0].oauth,
+                    oauth
+                );
+
+                // Test getCombined proxies to normal get for project/repo.
+                return bitbucketClient.prs.getCombined('PRJ', 'my-repo')
+            })
+            .then(function (prs) {
                 assert.equal(prs.size, 1);
                 assert.deepEqual(prs.values[0], expected.values[0]);
                 assert.equal(
@@ -43,7 +53,6 @@ describe('Pull Requests', function () {
                 );
                 done();
             });
-        });
     });
 
     it('should get a combined list of pull requests for all repos', function (done) {
@@ -57,22 +66,23 @@ describe('Pull Requests', function () {
         requestGet.onCall(2).returns(Promise.resolve(expectedPrs));
 
         // Test prs.get API.
-        bitbucketClient.prs.getCombined().then(function (prs) {
-            assert.deepEqual(prs.values[0], expectedPrs.values[0]);
-            assert.equal(
-                requestGet.getCall(0).args[0].uri,
-                'http://localhost/projects?limit=1000'
-            );
-            assert.equal(
-                requestGet.getCall(1).args[0].uri,
-                'http://localhost/projects/PRJ/repos?limit=1000'
-            );
-            assert.equal(
-                requestGet.getCall(2).args[0].uri,
-                'http://localhost/projects/PRJ/repos/my-repo/pull-requests?limit=1000&state=OPEN'
-            );
-            done();
-        });
+        bitbucketClient.prs.getCombined()
+            .then(function (prs) {
+                assert.deepEqual(prs.values[0], expectedPrs.values[0]);
+                assert.equal(
+                    requestGet.getCall(0).args[0].uri,
+                    'http://localhost/projects?limit=1000'
+                );
+                assert.equal(
+                    requestGet.getCall(1).args[0].uri,
+                    'http://localhost/projects/PRJ/repos?limit=1000'
+                );
+                assert.equal(
+                    requestGet.getCall(2).args[0].uri,
+                    'http://localhost/projects/PRJ/repos/my-repo/pull-requests?limit=1000&state=OPEN'
+                );
+                done();
+            });
     });
 
     it('should filter PRs by author', function (done) {
@@ -86,19 +96,22 @@ describe('Pull Requests', function () {
         requestGet.onCall(2).returns(Promise.resolve(expectedPrs));
 
         // Test prs.get API.
-        bitbucketClient.prs.getCombined(null, null, {author: 'tom'}).then(function (prs) {
-            assert.deepEqual(prs.values[0], expectedPrs.values[0]);
-        }).then(function () {
-            requestGet.onCall(3).returns(Promise.resolve(expectedProjects));
-            requestGet.onCall(4).returns(Promise.resolve(expectedRepos));
-            requestGet.onCall(5).returns(Promise.resolve(expectedPrs));
+        bitbucketClient.prs.getCombined(null, null, {author: 'tom'})
+            .then(function (prs) {
+                assert.deepEqual(prs.values[0], expectedPrs.values[0]);
+            })
+            .then(function () {
+                requestGet.onCall(3).returns(Promise.resolve(expectedProjects));
+                requestGet.onCall(4).returns(Promise.resolve(expectedRepos));
+                requestGet.onCall(5).returns(Promise.resolve(expectedPrs));
 
-            // Test prs.get API.
-            bitbucketClient.prs.getCombined(null, null, {author: 'ben'}).then(function (prs) {
+                // Test prs.get API.
+                return bitbucketClient.prs.getCombined(null, null, {author: 'ben'});
+            })
+            .then(function (prs) {
                 assert.equal(prs.values.length, 0);
                 done();
             });
-        });
     });
 
     it('should gracefully handle errors', function (done) {
@@ -111,30 +124,34 @@ describe('Pull Requests', function () {
         requestGet.onCall(2).throws();
 
         // Test prs.get API.
-        bitbucketClient.prs.getCombined().then(function () {
-            assert.fail();
-        }).catch(function (e) {
-            assert.equal(e.message, 'Error');
-
-            requestGet.onCall(3).returns(Promise.resolve(expectedProjects));
-            requestGet.onCall(4).throws();
-
-            bitbucketClient.prs.getCombined().then(function () {
-                console.log('prs');
+        bitbucketClient.prs.getCombined()
+            .then(function () {
                 assert.fail();
-            }).catch(function (e) {
+            })
+            .catch(function (e) {
                 assert.equal(e.message, 'Error');
 
+                requestGet.onCall(3).returns(Promise.resolve(expectedProjects));
+                requestGet.onCall(4).throws();
+
+                return bitbucketClient.prs.getCombined();
+            })
+            .then(function () {
+                assert.fail();
+            })
+            .catch(function (e) {
+                assert.equal(e.message, 'Error');
                 requestGet.onCall(5).throws();
 
-                bitbucketClient.prs.getCombined().then(function () {
-                    assert.fail();
-                }).catch(function (e) {
-                    assert.equal(e.message, 'Error');
-                    done();
-                });
+                return bitbucketClient.prs.getCombined();
+            })
+            .then(function () {
+                assert.fail();
+            })
+            .catch(function (e) {
+                assert.equal(e.message, 'Error');
+                done();
             });
-        });
     });
 });
 

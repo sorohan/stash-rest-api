@@ -9,7 +9,7 @@ describe('Hooks', function () {
     var oauth = require('../mocks/oauth');
 
     beforeEach(function () {
-        bitbucketClient = new BitbucketClient('http://localhost/', oauth);
+        bitbucketClient = new BitbucketClient('http://localhost', oauth);
         requestGet = sinon.stub(request, 'get');
     });
 
@@ -31,8 +31,9 @@ describe('Hooks', function () {
                     requestGet.getCall(0).args[0].uri,
                     'http://localhost/projects/PRJ/repos/my-repo/settings/hooks?limit=1000'
                 );
-            })
-            .finally(done);
+
+                done();
+            });
     });
 
     it('should get a single hook', function (done) {
@@ -49,8 +50,9 @@ describe('Hooks', function () {
                     requestGet.getCall(0).args[0].uri,
                     'http://localhost/projects/PRJ/repos/my-repo/settings/hooks/' + hookKey
                 );
-            })
-            .finally(done);
+
+                done();
+            });
     });
 
     it('should just get the PRE_RECEIVE hooks', function (done) {
@@ -63,8 +65,9 @@ describe('Hooks', function () {
             .then(function (hooks) {
                 assert.equal(hooks.size, 1);
                 assert.deepEqual(hooks.values[0], expected.values[0]);
-            })
-            .finally(done);
+
+                done();
+            });
     });
 
     it('should just get the POST_RECEIVE hooks', function (done) {
@@ -77,8 +80,8 @@ describe('Hooks', function () {
             .then(function (hooks) {
                 assert.equal(hooks.size, 1);
                 assert.deepEqual(hooks.values[0], expected.values[0]);
-            })
-            .finally(done);
+
+                done();
+            });
     });
 });
-

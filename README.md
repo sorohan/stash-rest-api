@@ -6,21 +6,33 @@ Provides access to *some* of client's APIs.
 [![Coverage Status](https://coveralls.io/repos/markmssd/bitbucket-server-nodejs/badge.svg?branch=master&service=github)](https://coveralls.io/github/markmssd/bitbucket-server-nodejs?branch=master)
 
 ## Initialising Client
+Supports Basic Auth and OAuth
 
 ```
-var oauth = {
-    "consumer_key": "consumer_key",
+var Client = require('bitbucket-server-nodejs').Client;
+```
+
+```
+var auth = {
+    "type": "basic",
+    "username": "username",
+    "password": "password"
+};
+                - OR -
+var auth = {
+    "type": "oauth",
     "consumer_secret": "consumer_secret",
     "signature_method": "signature_method",
     "token": "token",
     "token_secret": "token_secret"
 };
 
-var Client = require('bitbucket-server-nodejs').Client;
+```
 
+```
 var client = new Client(
     'http://localhost:7990/rest/api/1.0/',
-    oauth
+    auth
 );
 ```
 
@@ -46,6 +58,19 @@ Get all repos for all projects.
 
 ```
 client.repos.getCombined(); // Promise
+```
+
+### branches
+
+Get all branches for a repo.
+
+```
+client.branches.get(projectKey, repoKey); // Promise
+```
+To get branches from a user repo rather than a project repo, use user's slug as the project key, prepended by '~'.
+
+```
+client.branches.get('~userslug', repoKey); // Promise
 ```
 
 ### pull requests
@@ -108,6 +133,13 @@ Get details for a single hook.
 client.hooks.getHook(projectKey, repoSlug, hookKey); // Promise
 ```
 
+### settings
+
+Get user's settings. Username and Password must be valid.
+
+```
+client.settings.get(username); // Promise
+```
 ## API Coverage
 
  - /rest/api/1.0/projects [GET]
