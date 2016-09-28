@@ -8,8 +8,15 @@ Provides access to *some* of client's APIs.
 
 [![npm package](https://nodei.co/npm/bitbucket-server-nodejs.png?downloads=true&downloadRank=true)](https://nodei.co/npm/bitbucket-server-nodejs/)
 
+## Installation
+```
+npm install bitbucket-server-nodejs
+```
+
 ## Initializing Client
 Supports Basic Auth and OAuth
+Specify 'type' as 'basic' or 'oauth'. Defaults to 'basic'.
+
 
 ```
 var Client = require('bitbucket-server-nodejs').Client;
@@ -29,7 +36,6 @@ var auth = {
     "token": "token",
     "token_secret": "token_secret"
 };
-
 ```
 
 ```
@@ -70,6 +76,7 @@ Get all branches for a repo.
 ```
 client.branches.get(projectKey, repoKey); // Promise
 ```
+
 To get branches from a user repo rather than a project repo, use user's slug as the project key, prepended by '~'.
 
 ```
@@ -143,11 +150,15 @@ Get user's settings. Username and Password must be valid.
 ```
 client.settings.get(username); // Promise
 ```
+
 ## API Coverage
 
  - /rest/api/1.0/projects [GET]
  - /rest/api/1.0/projects/{projectKey}/repos [GET]
  - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug} [GET]
+ - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/browse [GET]
+ - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/branches [GET]
  - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/pull-requests [GET]
  - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks [GET]
  - /rest/api/1.0/projects/{projectKey}/repos/{repositorySlug}/settings/hooks/{hookKey}/enabled [PUT]
+ - /rest/api/1.0/users/{userSlug}/settings [GET]
