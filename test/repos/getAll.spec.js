@@ -3,6 +3,7 @@ var sinon = require('sinon');
 var BitbucketClient = require('../../index.js').Client;
 var request = require('request-promise');
 var Promise = require('bluebird');
+var _ = require('lodash');
 
 describe('Repos', function () {
   var requestGet, bitbucketClient;
@@ -35,19 +36,17 @@ describe('Repos', function () {
       }
     };
 
+    var EXPECTED = _.concat([], pageOne.values, pageTwo.values, pageThree.values);
+
     bitbucketClient.repos.getAll(options)
       .then(function (repos) {
         // Assert it contains the right ?start= argument
-        assert.equal(requestGet.getCall(0).args[0].uri, 'http://localhost/repos?limit=100');
-        assert.equal(requestGet.getCall(1).args[0].uri, 'http://localhost/repos?limit=100&start=1');
-        assert.equal(requestGet.getCall(2).args[0].uri, 'http://localhost/repos?limit=100&start=2');
+        assert.equal(requestGet.getCall(0).args[ 0 ].uri, 'http://localhost/repos?limit=100');
+        assert.equal(requestGet.getCall(1).args[ 0 ].uri, 'http://localhost/repos?limit=100&start=1');
+        assert.equal(requestGet.getCall(2).args[ 0 ].uri, 'http://localhost/repos?limit=100&start=2');
 
-        assert.equal(repos.length, 3);
+        assert.equal(_.isEqual(repos, EXPECTED), true);
         done();
-      })
-      .catch(function (error) {
-        console.log('ERROR');
-        console.log(error);
       });
   });
 });
