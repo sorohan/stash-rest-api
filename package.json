@@ -77,5 +77,5 @@
     "start": "mocha --watch",
     "test": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha -- --ui bdd -R spec -t 5000"
   },
-  "version": "2.10.0"
+  "version": "2.11.0"
 }

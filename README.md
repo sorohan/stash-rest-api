@@ -64,6 +64,12 @@ Get all repos for a project.
 client.repos.get(projectKey); // Promise
 ```
 
+Get all repos, using pagination.
+
+```
+client.repos.getAll(); // Promise
+```
+
 Get all repos for all projects.
 
 ```
