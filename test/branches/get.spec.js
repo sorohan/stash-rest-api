@@ -4,7 +4,7 @@ var BitbucketClient = require('../../index.js').Client;
 var request = require('request-promise');
 var Promise = require('bluebird');
 
-describe('Projects', function () {
+describe('Branches', function () {
   var requestGet, bitbucketClient;
   var oauth = require('../mocks/oauth');
 
@@ -14,24 +14,22 @@ describe('Projects', function () {
   });
 
   afterEach(function () {
-    requestGet.restore();
+    request.get.restore();
   });
 
-  it('should get list of projects', function (done) {
+  it('should get list of branches by project for a repo', function (done) {
     // Mock the HTTP Client get.
-    var expected = require('../mocks/projects.json');
+    var expected = require('../mocks/branches.json');
     requestGet.returns(Promise.resolve(expected));
 
-    // Test projects.get API.
-    bitbucketClient.projects.get()
-      .then(function (projects) {
-        assert.equal(projects.size, 1);
-        assert.deepEqual(projects.values[ 0 ], expected.values[ 0 ]);
-        assert.equal(requestGet.getCall(0).args[ 0 ].uri, 'http://localhost/projects?limit=1000');
-        assert.equal(requestGet.getCall(0).args[ 0 ].oauth, oauth);
+    // Test repos.get API.
+    bitbucketClient.branches.get('PRJ', 'my-repo')
+      .then(function (branches) {
+        assert.equal(branches.size, 5);
+        assert.deepEqual(branches.values[ 0 ], expected.values[ 0 ]);
+        assert.equal(requestGet.getCall(0).args[ 0 ].uri, 'http://localhost/projects/PRJ/repos/my-repo/branches?limit=1000');
 
         done();
       });
   });
 });
-
